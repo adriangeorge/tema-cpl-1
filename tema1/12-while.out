@@ -1,0 +1,13 @@
+program
+  class
+    A
+    method
+      f
+      formal
+        x
+        Int
+        formal
+          x
+          Int
+          0
+          1

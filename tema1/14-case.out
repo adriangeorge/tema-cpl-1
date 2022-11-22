@@ -1,0 +1,4 @@
+"14-case.cl", line 4:35, Syntax error: extraneous input ';' expecting {'esac', OBJ_ID}
+"14-case.cl", line 5:32, Syntax error: extraneous input ';' expecting {'esac', OBJ_ID}
+"14-case.cl", line 6:33, Syntax error: extraneous input ';' expecting {'esac', OBJ_ID}
+Compilation halted

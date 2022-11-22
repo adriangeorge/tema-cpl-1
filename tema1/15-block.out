@@ -1,0 +1,3 @@
+"15-block.cl", line 4:23, Syntax error: extraneous input ';' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
+"15-block.cl", line 5:20, Syntax error: extraneous input ';' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
+Compilation halted
