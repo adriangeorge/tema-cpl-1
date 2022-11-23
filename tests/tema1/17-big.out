@@ -1,18 +1,200 @@
-"17-big.cl", line 1:1, Syntax error: extraneous input '(*\r\n    Listă nevidă eterogenă, cu elemente având tipul static Object și tipuri\r\n    dinamice amestecate. Sfârșitul liste este semnalat de next = void.\r\n\r\n    Adaptare după Alex Aiken.\r\n*)' expecting 'class'
-"17-big.cl", line 21:17, Syntax error: mismatched input '-- case permite ramificarea execuției în funcție de tipul\r\n' expecting {'new', 'if', 'case', 'let', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{'}
-"17-big.cl", line 24:27, Syntax error: mismatched input 'of' expecting {'.', '}', '+', '-', '*', '/', '=', '<', '<=', '@'}
-"17-big.cl", line 25:32, Syntax error: mismatched input '=>' expecting {';', '<-'}
-"17-big.cl", line 26:29, Syntax error: mismatched input '=>' expecting {';', '<-'}
-"17-big.cl", line 26:45, Syntax error: mismatched input ')' expecting ':'
-"17-big.cl", line 26:46, Syntax error: mismatched input ';' expecting ':'
-"17-big.cl", line 27:32, Syntax error: mismatched input '=>' expecting {';', '<-'}
-"17-big.cl", line 27:44, Syntax error: mismatched input ';' expecting ':'
-"17-big.cl", line 28:17, Syntax error: extraneous input 'esac' expecting {<EOF>, 'class'}
-"17-big.cl", line 43:32, Syntax error: extraneous input '-- inițializată implicit la void\r\n' expecting OBJ_ID
-"17-big.cl", line 51:13, Syntax error: extraneous input '-- out_string întoarce IO, și putem înlănțui mai multe operații.\r\n' expecting {'new', 'if', 'case', 'let', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 63:5, Syntax error: extraneous input '-- factorial implementat recursiv\r\n' expecting {OBJ_ID, '}'}
-"17-big.cl", line 68:5, Syntax error: extraneous input '-- factorial implementat iterativ\r\n' expecting {OBJ_ID, '}'}
-"17-big.cl", line 71:9, Syntax error: mismatched input '-- Blocurile {} sunt văzute ca expresii. Valoarea ultimei expresii\r\n' expecting {'in', ','}
-"17-big.cl", line 80:17, Syntax error: extraneous input 'pool' expecting ';'
-"17-big.cl", line 81:17, Syntax error: extraneous input 'res' expecting {<EOF>, 'class'}
-Compilation halted
+program
+  class
+    List
+    IO
+    attribute
+      elem
+      Object
+    attribute
+      next
+      List
+    method
+      init
+      formal
+        e
+        Object
+      formal
+        n
+        List
+      List
+      block
+        <-
+          elem
+          e
+        <-
+          next
+          n
+        self
+    method
+      print
+      IO
+      let
+        local
+          str
+          String
+          case
+            elem
+            case branch
+              s
+              String
+              s
+            case branch
+              n
+              Int
+              .
+                new
+                  A2I
+                i2a
+                n
+            case branch
+              o
+              Object
+              block
+                implicit dispatch
+                  abort
+                
+        block
+          implicit dispatch
+            out_string
+            .
+              str
+              concat
+               
+          if
+            isvoid
+              next
+            implicit dispatch
+              out_string
+              
+
+            .
+              next
+              print
+  class
+    Main
+    IO
+    method
+      main
+      Object
+      block
+        let
+          local
+            x
+            Int
+            0
+          local
+            y
+            String
+            !
+          local
+            z
+            Int
+            +
+              x
+              2
+          local
+            empty
+            List
+          local
+            list
+            List
+            .
+              new
+                List
+              init
+              x
+              .
+                new
+                  List
+                init
+                y
+                .
+                  new
+                    List
+                  init
+                  z
+                  empty
+          .
+            list
+            print
+        let
+          local
+            n
+            Int
+            .
+              implicit dispatch
+                out_string
+                Calculăm factorial pentru: 
+              in_int
+          block
+            .
+              .
+                implicit dispatch
+                  out_string
+                  Factorial recursiv: 
+                out_int
+                implicit dispatch
+                  fact_rec
+                  n
+              out_string
+              
+
+            .
+              .
+                implicit dispatch
+                  out_string
+                  Factorial iterativ: 
+                out_int
+                implicit dispatch
+                  fact_iter
+                  n
+              out_string
+              
+
+    method
+      fact_rec
+      formal
+        n
+        Int
+      Int
+      if
+        =
+          n
+          0
+        1
+        *
+          n
+          implicit dispatch
+            fact_rec
+            -
+              n
+              1
+    method
+      fact_iter
+      formal
+        n
+        Int
+      Int
+      let
+        local
+          res
+          Int
+          1
+        block
+          while
+            not
+              =
+                n
+                0
+            block
+              <-
+                res
+                *
+                  res
+                  n
+              <-
+                n
+                -
+                  n
+                  1
+          res

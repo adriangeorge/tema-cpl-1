@@ -63,12 +63,45 @@ SELF_TYPE : 'SELF_TYPE';
 INTEGER : DIGIT+;
 
 // Chapter 10.2 Strings
-// Removed quotes
-STRING : '"' ('\\"' | .)*? '"' {setText(getText().substring(1, getText().length()-1));};
+STRING : '"' ('\\"' |  '\\' '\r'? '\n' | . )*? (
+    '"' {
+        // Remove quotes
+        setText(getText().substring(1, getText().length()-1));
+
+        // Replace special characters
+        String cleanText = getText();
+        cleanText = cleanText.replace("\\t", "\t");
+        cleanText = cleanText.replace("\\\r\n", "\r\n");
+        cleanText = cleanText.replace("\\n", "\n");
+        cleanText = cleanText.replace("\\b", "\b");
+        cleanText = cleanText.replace("\\f", "\f");
+        // Removes only one \ in sequence
+        cleanText = cleanText.replaceAll("\\\\(?!\\\\)", "");
+
+        // Error checking
+        if(getText().length() > 1024) {
+            raiseError("String constant too long");
+        } else if (getText().contains("\0")) {
+            raiseError("String contains null character");
+        } else {
+            setText(cleanText);
+        }
+    } 
+    | ('\r'? '\n') {raiseError("Unterminated string constant");}
+    | EOF {raiseError("EOF in string constant");} )
+    ;
 
 // Chapter 10.3 Comments
-LINE_COMMENT : '--' .*? '\n';
-BLOCK_COMMENT : '(*' .*? '*)';
+BAD_COMMENT : '*)' { raiseError("Unmatched *)"); };
+LINE_COMMENT : '--' .*? ( '\r'? '\n' | EOF) -> skip;
+BLOCK_COMMENT : '(*' (BLOCK_COMMENT | .)*? 
+(   '*)' { 
+        skip();
+    }
+    | EOF { 
+        raiseError("EOF in comment"); 
+    }
+);
 
 // Symbols
 SEMI : ';';
@@ -96,3 +129,6 @@ END_FILE : EOF;
 WS
     :   [ \n\f\r\t]+ -> skip
     ; 
+
+// If execution reached here, character is invalid
+INVALID: . { raiseError("Invalid character: " + getText()); };

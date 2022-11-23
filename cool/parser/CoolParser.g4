@@ -38,7 +38,7 @@ expr
     | id=OBJ_ID LPAREN (params+=expr (COMMA params+=expr)*)? RPAREN                                                                     #funcCall
     | IF cond=expr THEN then_expr=expr ELSE else_expr=expr FI                                                                           #clIf
     | WHILE cond_expr=expr LOOP instr_expr=expr POOL                                                                                    #whileLoop
-    | LBRACE (expr SEMI)+ RBRACE                                                                                                             #block
+    | LBRACE (expr_list+=expr SEMI)+ RBRACE                                                                                                             #block
     | LET other_vars+=localVar (COMMA other_vars+=localVar)* IN expr                                                                                                        #let
     | CASE init=expr OF (cases+=caseBranch)+ ESAC                                                                                        #case
     | NEW type=TYPE_ID                                                                                                                  #newInstance

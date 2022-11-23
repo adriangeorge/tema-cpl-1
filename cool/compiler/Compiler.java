@@ -430,11 +430,19 @@ public class Compiler {
                 }
 
                 Expression expr = (Expression) visit(ctx.expr());
+                indent_level--;
                 return new Let();
             }
 
             @Override
             public ASTNode visitBlock(CoolParser.BlockContext ctx) {
+                print_ast("block");
+                indent_level++;
+                ArrayList<Expression> expr_list = new ArrayList<Expression>();
+                for (var e : ctx.expr_list) {
+                    expr_list.add((Expression) visit(e));
+                }
+                indent_level--;
                 return new Block();
             }
 
@@ -458,6 +466,7 @@ public class Compiler {
                     cases.add((CaseBranch) visit(l));
                     indent_level--;
                 }
+                indent_level--;
                 return new Case();
             }
 
@@ -470,7 +479,7 @@ public class Compiler {
                 Expression cond = (Expression) visit(ctx.cond);
                 Expression then_expr = (Expression) visit(ctx.then_expr);
                 Expression else_expr = (Expression) visit(ctx.else_expr);
-
+                indent_level--;
                 return new ClIf();
             }
             // Others
