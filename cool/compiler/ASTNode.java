@@ -85,6 +85,20 @@ class VarDef extends Feature {
     }
 }
 
+class LocalVar extends Feature {
+    Token type;
+    Expression init;
+
+    public LocalVar(Token id, Token type, Expression init) {
+        super(id, null);
+        this.init = init;
+    }
+
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+}
+
 // EXPRESSIONS ABSTRACT
 abstract class Expression extends ASTNode {
 
@@ -125,6 +139,12 @@ class Block extends Expression {
 }
 
 class Case extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+}
+
+class CaseBranch extends Expression {
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
@@ -241,11 +261,24 @@ class BoolFalse extends Expression {
 class SimpleAssign extends Expression {
     Token id;
     Expression expr;
+
     public SimpleAssign(Token id, Expression expr) {
         this.id = id;
         this.expr = expr;
     }
 
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+}
+
+class ClIf extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+}
+
+class Let extends Expression {
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }

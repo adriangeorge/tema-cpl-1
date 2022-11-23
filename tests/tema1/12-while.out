@@ -7,11 +7,12 @@ program
         x
         Int
       Object
-      <
-        0
-        x
-      -
+      while
+        <
+          0
+          x
         <-
           x
-          x
-        1
+          -
+            x
+            1

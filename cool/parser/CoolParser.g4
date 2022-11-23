@@ -16,6 +16,7 @@ cl_class
     : CL_CLASS type=TYPE_ID (INHERITS inherit=TYPE_ID)? LBRACE (feat_list+=feature)* RBRACE SEMI                                        #classDef
     ;
 
+
 feature
     : id=OBJ_ID LPAREN (formal_list+=formal (COMMA formal_list+=formal)*)? RPAREN COLON type=TYPE_ID LBRACE (f_body=expr)? RBRACE SEMI  #funcDef
     | id=OBJ_ID COLON type=TYPE_ID (ASSIGN init=expr)? SEMI                                                                             #varDef
@@ -24,13 +25,22 @@ feature
 formal
     : id=OBJ_ID COLON type=TYPE_ID
     ;
+
+localVar
+    : id=OBJ_ID COLON type=TYPE_ID (ASSIGN expr)?
+    ; 
+
+caseBranch
+    : id=OBJ_ID COLON type=TYPE_ID CASE_EXPR expr SEMI
+    ;
 expr
-    : id=OBJ_ID ASSIGN expr                                                                                                             #simpleAssign
-    | left=expr (PARENT_CLASS type=TYPE_ID)? DOT LPAREN (params+=expr (COMMA params+=expr)*)? RPAREN                                    #oopDispatch
+    : left=expr (PARENT_CLASS p_type=TYPE_ID)? DOT method_id=OBJ_ID LPAREN (params+=expr (COMMA params+=expr)*)? RPAREN                 #oopDispatch
     | id=OBJ_ID LPAREN (params+=expr (COMMA params+=expr)*)? RPAREN                                                                     #funcCall
+    | IF cond=expr THEN then_expr=expr ELSE else_expr=expr FI                                                                           #clIf
     | WHILE cond_expr=expr LOOP instr_expr=expr POOL                                                                                    #whileLoop
-    | LBRACE (expr)+ RBRACE                                                                                                             #block
-    | CASE expr OF (formal CASE_EXPR expr)+ ESAC                                                                                        #case
+    | LBRACE (expr SEMI)+ RBRACE                                                                                                             #block
+    | LET other_vars+=localVar (COMMA other_vars+=localVar)* IN expr                                                                                                        #let
+    | CASE init=expr OF (cases+=caseBranch)+ ESAC                                                                                        #case
     | NEW type=TYPE_ID                                                                                                                  #newInstance
     | ISVOID expr                                                                                                                       #voidCheck
     // Arithmetic ops
@@ -44,6 +54,7 @@ expr
     | left=expr LE right=expr                                                                                                           #lessThanEqual
     | left=expr EQUAL right=expr                                                                                                        #equality
     | NOT expr                                                                                                                          #notExpr
+    | id=OBJ_ID ASSIGN expr                                                                                                             #simpleAssign
     | LPAREN expr RPAREN                                                                                                                #parenExpr
     | OBJ_ID                                                                                                                            #obj_id
     | INTEGER                                                                                                                           #clInteger

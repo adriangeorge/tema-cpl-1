@@ -1,4 +1,17 @@
-"11-if.cl", line 3:9, Syntax error: extraneous input 'if' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"11-if.cl", line 3:19, Syntax error: mismatched input 'then' expecting {'.', '}', '+', '-', '*', '/', '=', '<', '<=', '@'}
-"11-if.cl", line 5:1, Syntax error: extraneous input '}' expecting {<EOF>, 'class'}
-Compilation halted
+program
+  class
+    A
+    method
+      f
+      formal
+        x
+        Int
+      Int
+      if
+        <=
+          x
+          5
+        x
+        +
+          x
+          1

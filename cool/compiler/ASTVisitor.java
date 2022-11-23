@@ -61,4 +61,10 @@ public interface ASTVisitor<T> {
 
     T visit(SimpleAssign simpleAssign);
 
+    T visit(ClIf clIf);
+
+    T visit(Let let);
+
+    T visit(CaseBranch caseBranch);
+
 }

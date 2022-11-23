@@ -1,9 +1,6 @@
 "17-big.cl", line 1:1, Syntax error: extraneous input '(*\r\n    Listă nevidă eterogenă, cu elemente având tipul static Object și tipuri\r\n    dinamice amestecate. Sfârșitul liste este semnalat de next = void.\r\n\r\n    Adaptare după Alex Aiken.\r\n*)' expecting 'class'
-"17-big.cl", line 13:22, Syntax error: extraneous input ';' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 14:22, Syntax error: extraneous input ';' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 15:17, Syntax error: extraneous input ';' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 20:9, Syntax error: extraneous input 'let' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 20:17, Syntax error: mismatched input ':' expecting {'.', '}', '+', '-', '*', '/', '=', '<', '<=', '@'}
+"17-big.cl", line 21:17, Syntax error: mismatched input '-- case permite ramificarea execuției în funcție de tipul\r\n' expecting {'new', 'if', 'case', 'let', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{'}
+"17-big.cl", line 24:27, Syntax error: mismatched input 'of' expecting {'.', '}', '+', '-', '*', '/', '=', '<', '<=', '@'}
 "17-big.cl", line 25:32, Syntax error: mismatched input '=>' expecting {';', '<-'}
 "17-big.cl", line 26:29, Syntax error: mismatched input '=>' expecting {';', '<-'}
 "17-big.cl", line 26:45, Syntax error: mismatched input ')' expecting ':'
@@ -11,35 +8,11 @@
 "17-big.cl", line 27:32, Syntax error: mismatched input '=>' expecting {';', '<-'}
 "17-big.cl", line 27:44, Syntax error: mismatched input ';' expecting ':'
 "17-big.cl", line 28:17, Syntax error: extraneous input 'esac' expecting {<EOF>, 'class'}
-"17-big.cl", line 40:13, Syntax error: extraneous input 'let' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{'}
-"17-big.cl", line 40:19, Syntax error: extraneous input ':' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 40:29, Syntax error: extraneous input ',' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 41:19, Syntax error: extraneous input ':' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 41:34, Syntax error: extraneous input ',' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 42:19, Syntax error: extraneous input ':' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 42:33, Syntax error: extraneous input ',' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 43:23, Syntax error: extraneous input ':' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 44:22, Syntax error: extraneous input ':' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 45:30, Syntax error: extraneous input 'init' expecting '('
-"17-big.cl", line 46:34, Syntax error: extraneous input 'init' expecting '('
-"17-big.cl", line 47:38, Syntax error: extraneous input 'init' expecting '('
-"17-big.cl", line 48:13, Syntax error: extraneous input 'in' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 49:22, Syntax error: extraneous input 'print' expecting '('
-"17-big.cl", line 49:29, Syntax error: extraneous input ';' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 52:19, Syntax error: extraneous input ':' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 52:70, Syntax error: extraneous input 'in_int' expecting '('
-"17-big.cl", line 53:13, Syntax error: extraneous input 'in' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 55:56, Syntax error: extraneous input 'out_int' expecting '('
-"17-big.cl", line 56:26, Syntax error: extraneous input 'out_string' expecting '('
-"17-big.cl", line 56:42, Syntax error: extraneous input ';' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 57:56, Syntax error: extraneous input 'out_int' expecting '('
-"17-big.cl", line 58:26, Syntax error: extraneous input 'out_string' expecting '('
-"17-big.cl", line 58:42, Syntax error: extraneous input ';' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 59:18, Syntax error: extraneous input ';' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
+"17-big.cl", line 43:32, Syntax error: extraneous input '-- inițializată implicit la void\r\n' expecting OBJ_ID
+"17-big.cl", line 51:13, Syntax error: extraneous input '-- out_string întoarce IO, și putem înlănțui mai multe operații.\r\n' expecting {'new', 'if', 'case', 'let', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
 "17-big.cl", line 63:5, Syntax error: extraneous input '-- factorial implementat recursiv\r\n' expecting {OBJ_ID, '}'}
-"17-big.cl", line 65:9, Syntax error: extraneous input 'if' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"17-big.cl", line 65:18, Syntax error: mismatched input 'then' expecting {'.', '}', '+', '-', '*', '/', '=', '<', '<=', '@'}
-"17-big.cl", line 65:45, Syntax error: mismatched input '-' expecting ':'
-"17-big.cl", line 65:50, Syntax error: mismatched input 'fi' expecting ':'
-"17-big.cl", line 68:5, Syntax error: extraneous input '-- factorial implementat iterativ\r\n' expecting {<EOF>, 'class'}
+"17-big.cl", line 68:5, Syntax error: extraneous input '-- factorial implementat iterativ\r\n' expecting {OBJ_ID, '}'}
+"17-big.cl", line 71:9, Syntax error: mismatched input '-- Blocurile {} sunt văzute ca expresii. Valoarea ultimei expresii\r\n' expecting {'in', ','}
+"17-big.cl", line 80:17, Syntax error: extraneous input 'pool' expecting ';'
+"17-big.cl", line 81:17, Syntax error: extraneous input 'res' expecting {<EOF>, 'class'}
 Compilation halted

@@ -1,5 +1,23 @@
-"13-let.cl", line 3:9, Syntax error: extraneous input 'let' expecting {'new', 'case', 'while', 'true', 'false', 'not', 'isvoid', OBJ_ID, INTEGER, STRING, '~', '(', '{', '}'}
-"13-let.cl", line 3:15, Syntax error: mismatched input ':' expecting {'.', '}', '+', '-', '*', '/', '=', '<', '<=', '@'}
-"13-let.cl", line 5:9, Syntax error: mismatched input 'in' expecting {';', '.', '+', '-', '*', '/', '=', '<', '<=', '@'}
-"13-let.cl", line 8:1, Syntax error: extraneous input '}' expecting {<EOF>, 'class'}
-Compilation halted
+program
+  class
+    A
+    method
+      f
+      formal
+        x
+        Int
+      Int
+      let
+        local
+          x
+          Int
+          +
+            x
+            1
+        local
+          y
+          Int
+          +
+            x
+            1
+        x

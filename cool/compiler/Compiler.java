@@ -8,6 +8,7 @@ import cool.parser.*;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Compiler {
     // Annotates class nodes with the names of files where they are defined.
@@ -240,20 +241,18 @@ public class Compiler {
             @Override
             public ASTNode visitBoolTrue(CoolParser.BoolTrueContext ctx) {
                 print_ast(ctx.TRUE().getText());
-                return visitChildren(ctx);
+                return new BoolTrue();
             }
 
             @Override
             public ASTNode visitObj_id(CoolParser.Obj_idContext ctx) {
                 print_ast(ctx.OBJ_ID().getText());
-                return visitChildren(ctx);
+                return new ObjId();
             }
 
             // Operations
             @Override
             public ASTNode visitMultiplication(CoolParser.MultiplicationContext ctx) {
-
-                // Compute left hand expression
                 print_ast("*");
                 indent_level++;
                 Expression left = (Expression) visit(ctx.left);
@@ -351,7 +350,13 @@ public class Compiler {
             // While
             @Override
             public ASTNode visitWhileLoop(CoolParser.WhileLoopContext ctx) {
-                return visitChildren(ctx);
+                print_ast("while");
+                indent_level++;
+                Expression cond_expr = (Expression) visit(ctx.cond_expr);
+                Expression instr_expr = (Expression) visit(ctx.instr_expr);
+                indent_level--;
+
+                return new WhileLoop();
             }
 
             // Class
@@ -362,12 +367,28 @@ public class Compiler {
                 indent_level++;
                 print_ast(type.getText());
                 indent_level--;
-                return visitChildren(ctx);
+                return new NewInstance();
             }
 
             @Override
             public ASTNode visitOopDispatch(CoolParser.OopDispatchContext ctx) {
-                print_ast("dispachez");
+
+                print_ast(".");
+                indent_level++;
+
+                Expression left = (Expression) visit(ctx.left);
+
+                if (ctx.p_type != null) {
+                    print_ast(ctx.p_type.getText());
+                }
+                print_ast(ctx.method_id.getText());
+
+                ArrayList<Expression> param_list = new ArrayList<Expression>();
+                for (var p : ctx.params) {
+                    param_list.add((Expression) visit(p));
+                }
+
+                indent_level--;
                 return new oopDispatch();
             }
 
@@ -380,19 +401,78 @@ public class Compiler {
                 return new VoidCheck();
             }
 
-            // Let
+            // Blocks
+            @Override
+            public ASTNode visitLocalVar(CoolParser.LocalVarContext ctx) {
+                print_ast("local");
+                indent_level++;
+                print_ast(ctx.id.getText());
+                print_ast(ctx.type.getText());
+                // Check if initialisation is being done
+                if (ctx.expr() != null) {
+                    Expression expr = (Expression) visit(ctx.expr());
+                    indent_level--;
+                    return new LocalVar(ctx.type, ctx.id, expr);
+                } else {
+                    indent_level--;
+                    return new LocalVar(ctx.type, ctx.id, null);
+                }
+            }
+
+            @Override
+            public ASTNode visitLet(CoolParser.LetContext ctx) {
+                print_ast("let");
+
+                indent_level++;
+                ArrayList<Feature> let_list = new ArrayList<Feature>();
+                for (var l : ctx.other_vars) {
+                    let_list.add((Feature) visit(l));
+                }
+
+                Expression expr = (Expression) visit(ctx.expr());
+                return new Let();
+            }
 
             @Override
             public ASTNode visitBlock(CoolParser.BlockContext ctx) {
-                return visitChildren(ctx);
+                return new Block();
             }
 
             // Case
             @Override
+            public ASTNode visitCaseBranch(CoolParser.CaseBranchContext ctx) {
+                print_ast(ctx.id.getText());
+                print_ast(ctx.type.getText());
+                Expression expr = (Expression)visit(ctx.expr());
+                return new CaseBranch();
+            }
+            @Override
             public ASTNode visitCase(CoolParser.CaseContext ctx) {
-                return visitChildren(ctx);
+                print_ast("case");
+                indent_level++;
+                Expression init = (Expression) visit(ctx.init);
+                ArrayList<CaseBranch> cases = new ArrayList<>();
+                for (var l : ctx.cases) {
+                    print_ast("case branch");
+                    indent_level++;
+                    cases.add((CaseBranch) visit(l));
+                    indent_level--;
+                }
+                return new Case();
             }
 
+            @Override
+            public ASTNode visitClIf(CoolParser.ClIfContext ctx) {
+
+                print_ast("if");
+                indent_level++;
+
+                Expression cond = (Expression) visit(ctx.cond);
+                Expression then_expr = (Expression) visit(ctx.then_expr);
+                Expression else_expr = (Expression) visit(ctx.else_expr);
+
+                return new ClIf();
+            }
             // Others
 
             @Override
@@ -407,7 +487,17 @@ public class Compiler {
 
             @Override
             public ASTNode visitFuncCall(CoolParser.FuncCallContext ctx) {
-                return visitChildren(ctx);
+                print_ast("implicit dispatch");
+                indent_level++;
+                print_ast(ctx.id.getText());
+                // Visit all method params
+                ArrayList<Expression> param_list = new ArrayList<Expression>();
+
+                for (var p : ctx.params) {
+                    param_list.add((Expression) visit(p));
+                }
+                indent_level--;
+                return new FuncCall();
             }
 
         };
