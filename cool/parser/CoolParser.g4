@@ -33,11 +33,13 @@ expr
     | CASE expr OF (formal CASE_EXPR expr)+ ESAC                                                                                        #case
     | NEW type=TYPE_ID                                                                                                                  #newInstance
     | ISVOID expr                                                                                                                       #voidCheck
-    | left=expr PLUS right=expr                                                                                                         #addition
-    | left=expr MINUS right=expr                                                                                                        #subtraction
+    // Arithmetic ops
     | left=expr MULT right=expr                                                                                                         #multiplication
     | left=expr DIV right=expr                                                                                                          #divison
-    | NEGATE expr                                                                                                                       #negateExpr
+    | left=expr MINUS right=expr                                                                                                        #subtraction
+    | left=expr PLUS right=expr                                                                                                         #addition
+    | COMPL expr                                                                                                                        #complExpr
+    // Conditional ops
     | left=expr LT right=expr                                                                                                           #lessThan
     | left=expr LE right=expr                                                                                                           #lessThanEqual
     | left=expr EQUAL right=expr                                                                                                        #equality

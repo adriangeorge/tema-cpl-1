@@ -23,7 +23,7 @@ public class CoolParser extends Parser {
 		ESAC=10, OF=11, LET=12, IN=13, WHILE=14, LOOP=15, POOL=16, TRUE=17, FALSE=18, 
 		NOT=19, ISVOID=20, TYPE_ID=21, OBJ_ID=22, SELF=23, SELF_TYPE=24, INTEGER=25, 
 		STRING=26, LINE_COMMENT=27, BLOCK_COMMENT=28, SEMI=29, DOT=30, COLON=31, 
-		COMMA=32, NEGATE=33, ASSIGN=34, LPAREN=35, RPAREN=36, LBRACE=37, RBRACE=38, 
+		COMMA=32, COMPL=33, ASSIGN=34, LPAREN=35, RPAREN=36, LBRACE=37, RBRACE=38, 
 		PLUS=39, MINUS=40, MULT=41, DIV=42, EQUAL=43, LT=44, LE=45, CASE_EXPR=46, 
 		PARENT_CLASS=47, END_FILE=48, WS=49;
 	public static final int
@@ -53,7 +53,7 @@ public class CoolParser extends Parser {
 			"CASE", "ESAC", "OF", "LET", "IN", "WHILE", "LOOP", "POOL", "TRUE", "FALSE", 
 			"NOT", "ISVOID", "TYPE_ID", "OBJ_ID", "SELF", "SELF_TYPE", "INTEGER", 
 			"STRING", "LINE_COMMENT", "BLOCK_COMMENT", "SEMI", "DOT", "COLON", "COMMA", 
-			"NEGATE", "ASSIGN", "LPAREN", "RPAREN", "LBRACE", "RBRACE", "PLUS", "MINUS", 
+			"COMPL", "ASSIGN", "LPAREN", "RPAREN", "LBRACE", "RBRACE", "PLUS", "MINUS", 
 			"MULT", "DIV", "EQUAL", "LT", "LE", "CASE_EXPR", "PARENT_CLASS", "END_FILE", 
 			"WS"
 		};
@@ -416,7 +416,7 @@ public class CoolParser extends Parser {
 				setState(50);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NEW) | (1L << CASE) | (1L << WHILE) | (1L << TRUE) | (1L << FALSE) | (1L << NOT) | (1L << ISVOID) | (1L << OBJ_ID) | (1L << INTEGER) | (1L << STRING) | (1L << NEGATE) | (1L << LPAREN) | (1L << LBRACE))) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NEW) | (1L << CASE) | (1L << WHILE) | (1L << TRUE) | (1L << FALSE) | (1L << NOT) | (1L << ISVOID) | (1L << OBJ_ID) | (1L << INTEGER) | (1L << STRING) | (1L << COMPL) | (1L << LPAREN) | (1L << LBRACE))) != 0)) {
 					{
 					setState(49);
 					((FuncDefContext)_localctx).f_body = expr(0);
@@ -527,6 +527,26 @@ public class CoolParser extends Parser {
 		public ExprContext() { }
 		public void copyFrom(ExprContext ctx) {
 			super.copyFrom(ctx);
+		}
+	}
+	public static class ComplExprContext extends ExprContext {
+		public TerminalNode COMPL() { return getToken(CoolParser.COMPL, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public ComplExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CoolParserListener ) ((CoolParserListener)listener).enterComplExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CoolParserListener ) ((CoolParserListener)listener).exitComplExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof CoolParserVisitor ) return ((CoolParserVisitor<? extends T>)visitor).visitComplExpr(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class WhileLoopContext extends ExprContext {
@@ -712,26 +732,6 @@ public class CoolParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CoolParserVisitor ) return ((CoolParserVisitor<? extends T>)visitor).visitOopDispatch(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class NegateExprContext extends ExprContext {
-		public TerminalNode NEGATE() { return getToken(CoolParser.NEGATE, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public NegateExprContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CoolParserListener ) ((CoolParserListener)listener).enterNegateExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CoolParserListener ) ((CoolParserListener)listener).exitNegateExpr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CoolParserVisitor ) return ((CoolParserVisitor<? extends T>)visitor).visitNegateExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1110,7 +1110,7 @@ public class CoolParser extends Parser {
 				setState(82);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NEW) | (1L << CASE) | (1L << WHILE) | (1L << TRUE) | (1L << FALSE) | (1L << NOT) | (1L << ISVOID) | (1L << OBJ_ID) | (1L << INTEGER) | (1L << STRING) | (1L << NEGATE) | (1L << LPAREN) | (1L << LBRACE))) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NEW) | (1L << CASE) | (1L << WHILE) | (1L << TRUE) | (1L << FALSE) | (1L << NOT) | (1L << ISVOID) | (1L << OBJ_ID) | (1L << INTEGER) | (1L << STRING) | (1L << COMPL) | (1L << LPAREN) | (1L << LBRACE))) != 0)) {
 					{
 					setState(74);
 					((FuncCallContext)_localctx).expr = expr(0);
@@ -1176,7 +1176,7 @@ public class CoolParser extends Parser {
 					setState(95); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NEW) | (1L << CASE) | (1L << WHILE) | (1L << TRUE) | (1L << FALSE) | (1L << NOT) | (1L << ISVOID) | (1L << OBJ_ID) | (1L << INTEGER) | (1L << STRING) | (1L << NEGATE) | (1L << LPAREN) | (1L << LBRACE))) != 0) );
+				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NEW) | (1L << CASE) | (1L << WHILE) | (1L << TRUE) | (1L << FALSE) | (1L << NOT) | (1L << ISVOID) | (1L << OBJ_ID) | (1L << INTEGER) | (1L << STRING) | (1L << COMPL) | (1L << LPAREN) | (1L << LBRACE))) != 0) );
 				setState(97);
 				match(RBRACE);
 				}
@@ -1238,11 +1238,11 @@ public class CoolParser extends Parser {
 				break;
 			case 8:
 				{
-				_localctx = new NegateExprContext(_localctx);
+				_localctx = new ComplExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(116);
-				match(NEGATE);
+				match(COMPL);
 				setState(117);
 				expr(11);
 				}
@@ -1331,54 +1331,54 @@ public class CoolParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
 					case 1:
 						{
-						_localctx = new AdditionContext(new ExprContext(_parentctx, _parentState));
-						((AdditionContext)_localctx).left = _prevctx;
+						_localctx = new MultiplicationContext(new ExprContext(_parentctx, _parentState));
+						((MultiplicationContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(131);
 						if (!(precpred(_ctx, 15))) throw new FailedPredicateException(this, "precpred(_ctx, 15)");
 						setState(132);
-						match(PLUS);
+						match(MULT);
 						setState(133);
-						((AdditionContext)_localctx).right = expr(16);
+						((MultiplicationContext)_localctx).right = expr(16);
 						}
 						break;
 					case 2:
 						{
-						_localctx = new SubtractionContext(new ExprContext(_parentctx, _parentState));
-						((SubtractionContext)_localctx).left = _prevctx;
+						_localctx = new DivisonContext(new ExprContext(_parentctx, _parentState));
+						((DivisonContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(134);
 						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
 						setState(135);
-						match(MINUS);
+						match(DIV);
 						setState(136);
-						((SubtractionContext)_localctx).right = expr(15);
+						((DivisonContext)_localctx).right = expr(15);
 						}
 						break;
 					case 3:
 						{
-						_localctx = new MultiplicationContext(new ExprContext(_parentctx, _parentState));
-						((MultiplicationContext)_localctx).left = _prevctx;
+						_localctx = new SubtractionContext(new ExprContext(_parentctx, _parentState));
+						((SubtractionContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(137);
 						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
 						setState(138);
-						match(MULT);
+						match(MINUS);
 						setState(139);
-						((MultiplicationContext)_localctx).right = expr(14);
+						((SubtractionContext)_localctx).right = expr(14);
 						}
 						break;
 					case 4:
 						{
-						_localctx = new DivisonContext(new ExprContext(_parentctx, _parentState));
-						((DivisonContext)_localctx).left = _prevctx;
+						_localctx = new AdditionContext(new ExprContext(_parentctx, _parentState));
+						((AdditionContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(140);
 						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
 						setState(141);
-						match(DIV);
+						match(PLUS);
 						setState(142);
-						((DivisonContext)_localctx).right = expr(13);
+						((AdditionContext)_localctx).right = expr(13);
 						}
 						break;
 					case 5:
@@ -1446,7 +1446,7 @@ public class CoolParser extends Parser {
 						setState(167);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
-						if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NEW) | (1L << CASE) | (1L << WHILE) | (1L << TRUE) | (1L << FALSE) | (1L << NOT) | (1L << ISVOID) | (1L << OBJ_ID) | (1L << INTEGER) | (1L << STRING) | (1L << NEGATE) | (1L << LPAREN) | (1L << LBRACE))) != 0)) {
+						if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NEW) | (1L << CASE) | (1L << WHILE) | (1L << TRUE) | (1L << FALSE) | (1L << NOT) | (1L << ISVOID) | (1L << OBJ_ID) | (1L << INTEGER) | (1L << STRING) | (1L << COMPL) | (1L << LPAREN) | (1L << LBRACE))) != 0)) {
 							{
 							setState(159);
 							((OopDispatchContext)_localctx).expr = expr(0);
@@ -1614,11 +1614,11 @@ public class CoolParser extends Parser {
 		"\u0001\u0000\u0000\u0000\u0081|\u0001\u0000\u0000\u0000\u0081}\u0001\u0000"+
 		"\u0000\u0000\u0081~\u0001\u0000\u0000\u0000\u0081\u007f\u0001\u0000\u0000"+
 		"\u0000\u0081\u0080\u0001\u0000\u0000\u0000\u0082\u00ac\u0001\u0000\u0000"+
-		"\u0000\u0083\u0084\n\u000f\u0000\u0000\u0084\u0085\u0005\'\u0000\u0000"+
+		"\u0000\u0083\u0084\n\u000f\u0000\u0000\u0084\u0085\u0005)\u0000\u0000"+
 		"\u0085\u00ab\u0003\b\u0004\u0010\u0086\u0087\n\u000e\u0000\u0000\u0087"+
-		"\u0088\u0005(\u0000\u0000\u0088\u00ab\u0003\b\u0004\u000f\u0089\u008a"+
-		"\n\r\u0000\u0000\u008a\u008b\u0005)\u0000\u0000\u008b\u00ab\u0003\b\u0004"+
-		"\u000e\u008c\u008d\n\f\u0000\u0000\u008d\u008e\u0005*\u0000\u0000\u008e"+
+		"\u0088\u0005*\u0000\u0000\u0088\u00ab\u0003\b\u0004\u000f\u0089\u008a"+
+		"\n\r\u0000\u0000\u008a\u008b\u0005(\u0000\u0000\u008b\u00ab\u0003\b\u0004"+
+		"\u000e\u008c\u008d\n\f\u0000\u0000\u008d\u008e\u0005\'\u0000\u0000\u008e"+
 		"\u00ab\u0003\b\u0004\r\u008f\u0090\n\n\u0000\u0000\u0090\u0091\u0005,"+
 		"\u0000\u0000\u0091\u00ab\u0003\b\u0004\u000b\u0092\u0093\n\t\u0000\u0000"+
 		"\u0093\u0094\u0005-\u0000\u0000\u0094\u00ab\u0003\b\u0004\n\u0095\u0096"+

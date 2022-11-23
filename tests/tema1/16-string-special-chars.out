@@ -4,21 +4,21 @@ program
     attribute
       s1
       String
-      "ab\tcd"
+      ab\tcd
     attribute
       s2
       String
-      "ab\ncd"
+      ab\ncd
     attribute
       s3
       String
-      "ab\
-cd"
+      ab\
+cd
     attribute
       s4
       String
-      "ab\\cd"
+      ab\\cd
     attribute
       s5
       String
-      "ab\zcd"
+      ab\zcd

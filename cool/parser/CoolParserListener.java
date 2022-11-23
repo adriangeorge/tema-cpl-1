@@ -66,6 +66,18 @@ public interface CoolParserListener extends ParseTreeListener {
 	 */
 	void exitFormal(CoolParser.FormalContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code complExpr}
+	 * labeled alternative in {@link CoolParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterComplExpr(CoolParser.ComplExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code complExpr}
+	 * labeled alternative in {@link CoolParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitComplExpr(CoolParser.ComplExprContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code whileLoop}
 	 * labeled alternative in {@link CoolParser#expr}.
 	 * @param ctx the parse tree
@@ -161,18 +173,6 @@ public interface CoolParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitOopDispatch(CoolParser.OopDispatchContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code negateExpr}
-	 * labeled alternative in {@link CoolParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterNegateExpr(CoolParser.NegateExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code negateExpr}
-	 * labeled alternative in {@link CoolParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitNegateExpr(CoolParser.NegateExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code boolTrue}
 	 * labeled alternative in {@link CoolParser#expr}.

@@ -62,7 +62,7 @@ class Feature extends Definition {
 }
 
 class FuncDef extends Feature {
-    public FuncDef(Token id, List<Formal> formal_list, Expression init) {
+    public FuncDef(Token id, ArrayList<Formal> formal_list, Expression init) {
         super(id, formal_list);
     }
 
@@ -87,71 +87,131 @@ class VarDef extends Feature {
 
 // EXPRESSIONS ABSTRACT
 abstract class Expression extends ASTNode {
+
+    public Expression() {
+    }
 }
 
 class SimpleDispatch extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 
 }
 
 class oopDispatch extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 
 }
 
 class FuncCall extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class WhileLoop extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class Block extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class Case extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class NewInstance extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class VoidCheck extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class Addition extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class Subtraction extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class Multiplication extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class Division extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
-class NegateExpr extends Expression {
+class ComplExpr extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class LessThan extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class LessThanEqual extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class Equality extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class NotExpr extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class ParenExpr extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class ObjId extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class ClInteger extends Expression {
     Token val;
 
-    ClInteger(Token val){
+    ClInteger(Token val) {
         this.val = val;
     }
 
@@ -161,16 +221,36 @@ class ClInteger extends Expression {
 }
 
 class ClString extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class BoolTrue extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
 class BoolFalse extends Expression {
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
 
-// PROGRAM ABSTRACT
+class SimpleAssign extends Expression {
+    Token id;
+    Expression expr;
+    public SimpleAssign(Token id, Expression expr) {
+        this.id = id;
+        this.expr = expr;
+    }
 
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+}
+// PROGRAM ABSTRACT
 
 class Program extends ASTNode {
     // A program is made up of one or more classes

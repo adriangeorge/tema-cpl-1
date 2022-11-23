@@ -4,13 +4,16 @@ program
     attribute
       n
       Int
+      0
+    attribute
+      s
+      String
+      abc
     attribute
       b
       Bool
-      2
+      false
     attribute
       c
       Bool
-      2
-      1
-      false
+      b

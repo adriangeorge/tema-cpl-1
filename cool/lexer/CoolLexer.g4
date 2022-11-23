@@ -63,7 +63,8 @@ SELF_TYPE : 'SELF_TYPE';
 INTEGER : DIGIT+;
 
 // Chapter 10.2 Strings
-STRING : '"' ('\\"' | .)*? '"';
+// Removed quotes
+STRING : '"' ('\\"' | .)*? '"' {setText(getText().substring(1, getText().length()-1));};
 
 // Chapter 10.3 Comments
 LINE_COMMENT : '--' .*? '\n';
@@ -74,7 +75,7 @@ SEMI : ';';
 DOT: '.';
 COLON: ':';
 COMMA : ',';
-NEGATE : '~';
+COMPL : '~';
 ASSIGN : '<-';
 LPAREN : '(';
 RPAREN : ')';

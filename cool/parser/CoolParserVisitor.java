@@ -46,6 +46,13 @@ public interface CoolParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFormal(CoolParser.FormalContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code complExpr}
+	 * labeled alternative in {@link CoolParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComplExpr(CoolParser.ComplExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code whileLoop}
 	 * labeled alternative in {@link CoolParser#expr}.
 	 * @param ctx the parse tree
@@ -101,13 +108,6 @@ public interface CoolParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitOopDispatch(CoolParser.OopDispatchContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code negateExpr}
-	 * labeled alternative in {@link CoolParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNegateExpr(CoolParser.NegateExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code boolTrue}
 	 * labeled alternative in {@link CoolParser#expr}.

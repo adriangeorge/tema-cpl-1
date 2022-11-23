@@ -167,17 +167,36 @@ public class Compiler {
             }
 
             @Override
+            public ASTNode visitFormal(CoolParser.FormalContext ctx) {
+                print_ast("formal");
+                indent_level++;
+                print_ast(ctx.id.getText());
+                print_ast(ctx.type.getText());
+                indent_level--;
+                return new Formal(ctx.id, ctx.type);
+            }
+
+            @Override
             public ASTNode visitFuncDef(CoolParser.FuncDefContext ctx) {
                 print_ast("method");
                 indent_level++;
                 print_ast(ctx.id.getText());
-
                 // Visit all method formals
                 ArrayList<Formal> formal_list = new ArrayList<Formal>();
                 for (var f : ctx.formal_list) {
                     formal_list.add((Formal) visit(f));
                 }
-                return visitChildren(ctx);
+                print_ast(ctx.type.getText());
+
+                // Check if function has body and visit it
+                Expression func_body;
+                if (ctx.f_body == null) {
+                    func_body = null;
+                } else {
+                    func_body = (Expression) visit(ctx.f_body);
+                }
+                indent_level--;
+                return new FuncDef(ctx.id, formal_list, func_body);
             }
 
             @Override
@@ -189,7 +208,7 @@ public class Compiler {
                 print_ast(ctx.type.getText());
                 // Check if initialisation is being done
                 if (ctx.init != null) {
-                    Expression expr =  (Expression) visit(ctx.init);
+                    Expression expr = (Expression) visit(ctx.init);
                     indent_level--;
                     return new VarDef(ctx.type, ctx.id, expr);
                 } else {
@@ -199,7 +218,7 @@ public class Compiler {
             }
 
             // VISIT EXPRESSIONS
-            // VISIT LITERALS
+            // Literals
             @Override
             public ASTNode visitClInteger(CoolParser.ClIntegerContext ctx) {
                 print_ast(ctx.INTEGER().getText());
@@ -224,112 +243,170 @@ public class Compiler {
                 return visitChildren(ctx);
             }
 
-            // VISIT OPERATIONS
+            @Override
+            public ASTNode visitObj_id(CoolParser.Obj_idContext ctx) {
+                print_ast(ctx.OBJ_ID().getText());
+                return visitChildren(ctx);
+            }
+
+            // Operations
             @Override
             public ASTNode visitMultiplication(CoolParser.MultiplicationContext ctx) {
 
                 // Compute left hand expression
-                Expression left = (Expression)visit(ctx.left);
-                return visitChildren(ctx);
+                print_ast("*");
+                indent_level++;
+                Expression left = (Expression) visit(ctx.left);
+                Expression right = (Expression) visit(ctx.right);
+                indent_level--;
+                return new Multiplication();
             }
 
             @Override
             public ASTNode visitDivison(CoolParser.DivisonContext ctx) {
-                return visitChildren(ctx);
+
+                // Increase indent before visiting operands
+                print_ast("/");
+                indent_level++;
+                Expression left = (Expression) visit(ctx.left);
+                Expression right = (Expression) visit(ctx.right);
+                indent_level--;
+                return new Division();
             }
 
             @Override
             public ASTNode visitSubtraction(CoolParser.SubtractionContext ctx) {
-                return visitChildren(ctx);
+                print_ast("-");
+                indent_level++;
+                Expression left = (Expression) visit(ctx.left);
+                Expression right = (Expression) visit(ctx.right);
+                indent_level--;
+                return new Subtraction();
             }
 
             @Override
             public ASTNode visitAddition(CoolParser.AdditionContext ctx) {
-                return visitChildren(ctx);
+                print_ast("+");
+                indent_level++;
+                Expression left = (Expression) visit(ctx.left);
+                Expression right = (Expression) visit(ctx.right);
+                indent_level--;
+                return new Addition();
             }
 
+            @Override
+            public ASTNode visitParenExpr(CoolParser.ParenExprContext ctx) {
+                return visit(ctx.expr());
+            }
+
+            @Override
+            public ASTNode visitComplExpr(CoolParser.ComplExprContext ctx) {
+                print_ast("~");
+                indent_level++;
+                Expression operand = (Expression) visit(ctx.expr());
+                indent_level--;
+                return new ComplExpr();
+            }
+
+            // Comparison
             @Override
             public ASTNode visitLessThanEqual(CoolParser.LessThanEqualContext ctx) {
-                return visitChildren(ctx);
+                print_ast("<=");
+                indent_level++;
+                Expression left = (Expression) visit(ctx.left);
+                Expression right = (Expression) visit(ctx.right);
+                indent_level--;
+                return new LessThanEqual();
             }
 
             @Override
-            public ASTNode visitFormal(CoolParser.FormalContext ctx) {
-                print_ast("formal");
+            public ASTNode visitLessThan(CoolParser.LessThanContext ctx) {
+                print_ast("<");
                 indent_level++;
-                print_ast(ctx.id.getText());
-                print_ast(ctx.type.getText());
-
-                return new Formal(ctx.id, ctx.type);
+                Expression left = (Expression) visit(ctx.left);
+                Expression right = (Expression) visit(ctx.right);
+                indent_level--;
+                return new LessThan();
             }
 
+            @Override
+            public ASTNode visitNotExpr(CoolParser.NotExprContext ctx) {
+                print_ast("not");
+                indent_level++;
+                Expression operand = (Expression) visit(ctx.expr());
+                indent_level--;
+                return new NotExpr();
+            }
+
+            @Override
+            public ASTNode visitEquality(CoolParser.EqualityContext ctx) {
+                print_ast("=");
+                indent_level++;
+                Expression left = (Expression) visit(ctx.left);
+                Expression right = (Expression) visit(ctx.right);
+                indent_level--;
+                return new Equality();
+            }
+
+            // While
             @Override
             public ASTNode visitWhileLoop(CoolParser.WhileLoopContext ctx) {
                 return visitChildren(ctx);
             }
 
-            @Override
-            public ASTNode visitObj_id(CoolParser.Obj_idContext ctx) {
-                return visitChildren(ctx);
-            }
-
+            // Class
             @Override
             public ASTNode visitNewInstance(CoolParser.NewInstanceContext ctx) {
-                return visitChildren(ctx);
-            }
-
-            @Override
-            public ASTNode visitParenExpr(CoolParser.ParenExprContext ctx) {
+                print_ast("new");
+                Token type = ctx.type;
+                indent_level++;
+                print_ast(type.getText());
+                indent_level--;
                 return visitChildren(ctx);
             }
 
             @Override
             public ASTNode visitOopDispatch(CoolParser.OopDispatchContext ctx) {
-                return visitChildren(ctx);
-            }
-
-            @Override
-            public ASTNode visitNegateExpr(CoolParser.NegateExprContext ctx) {
-                return visitChildren(ctx);
-            }
-
-            @Override
-            public ASTNode visitNotExpr(CoolParser.NotExprContext ctx) {
-                return visitChildren(ctx);
+                print_ast("dispachez");
+                return new oopDispatch();
             }
 
             @Override
             public ASTNode visitVoidCheck(CoolParser.VoidCheckContext ctx) {
-                return visitChildren(ctx);
+                print_ast("isvoid");
+                indent_level++;
+                Expression expr = (Expression) visit(ctx.expr());
+                indent_level--;
+                return new VoidCheck();
             }
 
-            @Override
-            public ASTNode visitLessThan(CoolParser.LessThanContext ctx) {
-                return visitChildren(ctx);
-            }
+            // Let
 
             @Override
             public ASTNode visitBlock(CoolParser.BlockContext ctx) {
                 return visitChildren(ctx);
             }
 
+            // Case
+            @Override
+            public ASTNode visitCase(CoolParser.CaseContext ctx) {
+                return visitChildren(ctx);
+            }
+
+            // Others
+
             @Override
             public ASTNode visitSimpleAssign(CoolParser.SimpleAssignContext ctx) {
-                return visitChildren(ctx);
+                print_ast("<-");
+                indent_level++;
+                print_ast(ctx.id.getText());
+                Expression expr = (Expression) visit(ctx.expr());
+                indent_level--;
+                return new SimpleAssign(ctx.id, expr);
             }
 
             @Override
             public ASTNode visitFuncCall(CoolParser.FuncCallContext ctx) {
-                return visitChildren(ctx);
-            }
-
-            @Override
-            public ASTNode visitEquality(CoolParser.EqualityContext ctx) {
-                return visitChildren(ctx);
-            }
-
-            @Override
-            public ASTNode visitCase(CoolParser.CaseContext ctx) {
                 return visitChildren(ctx);
             }
 
