@@ -140,20 +140,12 @@ public class Compiler {
             // VISIT DEFINITIONS
             @Override
             public ASTNode visitClassDef(CoolParser.ClassDefContext ctx) {
-                // Get class and class name
-                // var rep = ast_representation("class", ctx.depth());
-                // rep += ast_representation(ctx.type.getText(), ctx.depth() + 1);
-
-                // Check if class inherits and print
-                if (ctx.inherit != null) {
-                    // rep += ast_representation(ctx.inherit.getText(), ctx.depth() + 1);
-                }
-
                 // Visit all class features
                 ArrayList<Feature> feature_list = new ArrayList<Feature>();
                 for (var f : ctx.feat_list) {
                     feature_list.add((Feature) visit(f));
                 }
+
                 // Set depth and return object
                 var o = new ClassDef(ctx.type, ctx.inherit, feature_list);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -162,10 +154,6 @@ public class Compiler {
 
             @Override
             public ASTNode visitFormal(CoolParser.FormalContext ctx) {
-                // var rep = ast_representation("formal", ctx.depth());
-                // rep += ast_representation(ctx.id.getText(), ctx.depth() + 1);
-                // rep += ast_representation(ctx.type.getText(), ctx.depth() + 1);
-
                 // Set depth and return object
                 var o = new Formal(ctx.id, ctx.type);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -174,22 +162,18 @@ public class Compiler {
 
             @Override
             public ASTNode visitFuncDef(CoolParser.FuncDefContext ctx) {
-                // var rep = ast_representation("method", ctx.depth());
-                // indent_level++;
-                // rep += ast_representation(ctx.id.getText(), ctx.depth() + 1);
                 // Visit all method formals
                 ArrayList<Formal> formal_list = new ArrayList<Formal>();
                 for (var f : ctx.formal_list) {
                     formal_list.add((Formal) visit(f));
                 }
-                // var rep = ast_representation(ctx.type.getText(), ctx.depth());
 
                 // Check if function has body and visit it
                 Expression func_body = null;
                 if (ctx.f_body != null) {
                     func_body = (Expression) visit(ctx.f_body);
                 }
-                // indent_level--;
+
                 // Set depth and return object
                 var o = new FuncDef(ctx.id, ctx.type, formal_list, func_body);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -198,19 +182,13 @@ public class Compiler {
 
             @Override
             public ASTNode visitVarDef(CoolParser.VarDefContext ctx) {
-                // Print attribute and attribute name
-                // var rep = ast_representation("attribute", ctx.depth());
-                // indent_level++;
-                // var rep = ast_representation(ctx.id.getText(), ctx.depth());
-                // var rep = ast_representation(ctx.type.getText(), ctx.depth());
                 // Check if initialisation is being done
                 Expression expr = null;
                 if (ctx.init != null) {
                     expr = (Expression) visit(ctx.init);
-                    // indent_level--;
-                    // Set depth and return object
                 }
 
+                // Set depth and return object
                 var o = new VarDef(ctx.id, ctx.type, expr);
                 o.setDepth(ctx.depth() - parentheses_offset);
                 return o;
@@ -220,8 +198,7 @@ public class Compiler {
             // Literals
             @Override
             public ASTNode visitClInteger(CoolParser.ClIntegerContext ctx) {
-                // var rep = ast_representation(ctx.INTEGER().getText(), ctx.depth());
-                // Set depth and return object var o = new Program(class_list);
+                // Set depth and return object
                 var o = new ClInteger(ctx.INTEGER().getSymbol());
                 o.setDepth(ctx.depth() - parentheses_offset);
                 return o;
@@ -229,8 +206,7 @@ public class Compiler {
 
             @Override
             public ASTNode visitClString(CoolParser.ClStringContext ctx) {
-                // var rep = ast_representation(ctx.STRING().getText(), ctx.depth());
-                // Set depth and return object var o = new Program(class_list);
+                // Set depth and return object
                 var o = new ClString(ctx.STRING().getSymbol());
                 o.setDepth(ctx.depth() - parentheses_offset);
                 return o;
@@ -239,7 +215,7 @@ public class Compiler {
             @Override
             public ASTNode visitBoolFalse(CoolParser.BoolFalseContext ctx) {
                 // var rep = ast_representation(ctx.FALSE().getText(), ctx.depth());
-                // Set depth and return object var o = new Program(class_list);
+                // Set depth and return object
                 var o = new BoolFalse(ctx.FALSE().getSymbol());
                 o.setDepth(ctx.depth() - parentheses_offset);
                 return o;
@@ -247,8 +223,7 @@ public class Compiler {
 
             @Override
             public ASTNode visitBoolTrue(CoolParser.BoolTrueContext ctx) {
-                // var rep = ast_representation(ctx.TRUE().getText(), ctx.depth());
-                // Set depth and return object var o = new Program(class_list);
+                // Set depth and return object
                 var o = new BoolTrue(ctx.TRUE().getSymbol());
                 o.setDepth(ctx.depth() - parentheses_offset);
                 return o;
@@ -256,8 +231,7 @@ public class Compiler {
 
             @Override
             public ASTNode visitObj_id(CoolParser.Obj_idContext ctx) {
-                // var rep = ast_representation(ctx.OBJ_ID().getText(), ctx.depth());
-                // Set depth and return object var o = new Program(class_list);
+                // Set depth and return object
                 var o = new ObjId(ctx.OBJ_ID().getSymbol());
                 o.setDepth(ctx.depth() - parentheses_offset);
                 return o;
@@ -266,11 +240,9 @@ public class Compiler {
             // Operations
             @Override
             public ASTNode visitMultiplication(CoolParser.MultiplicationContext ctx) {
-                // var rep = ast_representation("*", ctx.depth());
-                // indent_level++;
                 Expression left = (Expression) visit(ctx.left);
                 Expression right = (Expression) visit(ctx.right);
-                // indent_level--;
+
                 // Set depth and return object
                 var o = new Multiplication(left, right);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -279,11 +251,9 @@ public class Compiler {
 
             @Override
             public ASTNode visitDivision(CoolParser.DivisionContext ctx) {
-                // var rep = ast_representation("/", ctx.depth());
-                // indent_level++;
                 Expression left = (Expression) visit(ctx.left);
                 Expression right = (Expression) visit(ctx.right);
-                // indent_level--;
+
                 // Set depth and return object
                 var o = new Division(left, right);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -292,11 +262,10 @@ public class Compiler {
 
             @Override
             public ASTNode visitSubtraction(CoolParser.SubtractionContext ctx) {
-                // var rep = ast_representation("-", ctx.depth());
-                // indent_level++;
+
                 Expression left = (Expression) visit(ctx.left);
                 Expression right = (Expression) visit(ctx.right);
-                // indent_level--;
+
                 // Set depth and return object
                 var o = new Subtraction(left, right);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -305,11 +274,9 @@ public class Compiler {
 
             @Override
             public ASTNode visitAddition(CoolParser.AdditionContext ctx) {
-                // var rep = ast_representation("+", ctx.depth());
-                // indent_level++;
                 Expression left = (Expression) visit(ctx.left);
                 Expression right = (Expression) visit(ctx.right);
-                // indent_level--;
+
                 // Set depth and return object
                 var o = new Addition(left, right);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -321,7 +288,6 @@ public class Compiler {
                 // Parentheses break up the usage of ctx.depth() a little,
                 // but I can compensate by using an offset each time an expression
                 // in parantheses is encountered
-
                 parentheses_offset++;
                 Expression expression = (Expression) visit(ctx.expr());
                 parentheses_offset--;
@@ -331,10 +297,8 @@ public class Compiler {
 
             @Override
             public ASTNode visitComplExpr(CoolParser.ComplExprContext ctx) {
-                // var rep = ast_representation("~", ctx.depth());
-                // indent_level++;
                 Expression operand = (Expression) visit(ctx.expr());
-                // indent_level--;
+
                 // Set depth and return object
                 var o = new ComplExpr(operand);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -344,11 +308,9 @@ public class Compiler {
             // Comparison
             @Override
             public ASTNode visitLessThanEqual(CoolParser.LessThanEqualContext ctx) {
-                // var rep = ast_representation("<=", ctx.depth());
-                // indent_level++;
                 Expression left = (Expression) visit(ctx.left);
                 Expression right = (Expression) visit(ctx.right);
-                // indent_level--;
+
                 // Set depth and return object
                 var o = new LessThanEqual(left, right);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -357,11 +319,9 @@ public class Compiler {
 
             @Override
             public ASTNode visitLessThan(CoolParser.LessThanContext ctx) {
-                // var rep = ast_representation("<", ctx.depth());
-                // indent_level++;
                 Expression left = (Expression) visit(ctx.left);
                 Expression right = (Expression) visit(ctx.right);
-                // indent_level--;
+
                 // Set depth and return object
                 var o = new LessThan(left, right);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -370,10 +330,8 @@ public class Compiler {
 
             @Override
             public ASTNode visitNotExpr(CoolParser.NotExprContext ctx) {
-                // var rep = ast_representation("not", ctx.depth());
-                // indent_level++;
                 Expression operand = (Expression) visit(ctx.expr());
-                // indent_level--;
+
                 // Set depth and return object
                 var o = new NotExpr(operand);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -382,11 +340,9 @@ public class Compiler {
 
             @Override
             public ASTNode visitEquality(CoolParser.EqualityContext ctx) {
-                // var rep = ast_representation("=", ctx.depth());
-                // indent_level++;
                 Expression left = (Expression) visit(ctx.left);
                 Expression right = (Expression) visit(ctx.right);
-                // indent_level--;
+
                 // Set depth and return object
                 var o = new Equality(left, right);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -396,11 +352,8 @@ public class Compiler {
             // While
             @Override
             public ASTNode visitWhileLoop(CoolParser.WhileLoopContext ctx) {
-                // var rep = ast_representation("while", ctx.depth());
-                // indent_level++;
                 Expression cond_expr = (Expression) visit(ctx.cond_expr);
                 Expression instr_expr = (Expression) visit(ctx.instr_expr);
-                // indent_level--;
 
                 // Set depth and return object
                 var o = new WhileLoop(cond_expr, instr_expr);
@@ -411,11 +364,8 @@ public class Compiler {
             // Class
             @Override
             public ASTNode visitNewInstance(CoolParser.NewInstanceContext ctx) {
-                // var rep = ast_representation("new", ctx.depth());
                 Token type = ctx.type;
-                // indent_level++;
-                // var rep = ast_representation(type.getText(), ctx.depth());
-                // indent_level--;
+
                 // Set depth and return object
                 var o = new NewInstance(type);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -424,25 +374,14 @@ public class Compiler {
 
             @Override
             public ASTNode visitOopDispatch(CoolParser.OopDispatchContext ctx) {
-
-                // var rep = ast_representation(".", ctx.depth());
-                // indent_level++;
-
                 Expression left = (Expression) visit(ctx.left);
-
-                if (ctx.p_type != null) {
-                    // var rep = ast_representation(ctx.p_type.getText(), ctx.depth());
-                }
-                // var rep = ast_representation(ctx.method_id.getText(), ctx.depth());
 
                 ArrayList<Expression> param_list = new ArrayList<Expression>();
                 for (var p : ctx.params) {
                     param_list.add((Expression) visit(p));
                 }
 
-                // indent_level--;
                 // Set depth and return object
-
                 var o = new OopDispatch(left, ctx.p_type, ctx.method_id, param_list);
                 o.setDepth(ctx.depth() - parentheses_offset);
                 return o;
@@ -450,10 +389,8 @@ public class Compiler {
 
             @Override
             public ASTNode visitVoidCheck(CoolParser.VoidCheckContext ctx) {
-                // var rep = ast_representation("isvoid", ctx.depth());
-                // indent_level++;
                 Expression expr = (Expression) visit(ctx.expr());
-                // indent_level--;
+
                 // Set depth and return object
                 var o = new VoidCheck(expr);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -463,18 +400,13 @@ public class Compiler {
             // Blocks
             @Override
             public ASTNode visitLocalVar(CoolParser.LocalVarContext ctx) {
-                // var rep = ast_representation("local", ctx.depth());
-                // indent_level++;
-                // var rep = ast_representation(ctx.id.getText(), ctx.depth());
-                // var rep = ast_representation(ctx.type.getText(), ctx.depth());
                 // Check if initialisation is being done
                 Expression expr = null;
                 if (ctx.expr() != null) {
                     expr = (Expression) visit(ctx.expr());
-                    // indent_level--;
-                    // Set depth and return object var o = new Program(class_list);
                 }
 
+                // Set depth and return object
                 var o = new LocalVar(ctx.id, ctx.type, expr);
                 o.setDepth(ctx.depth() - parentheses_offset);
                 return o;
@@ -482,16 +414,13 @@ public class Compiler {
 
             @Override
             public ASTNode visitLet(CoolParser.LetContext ctx) {
-                // var rep = ast_representation("let", ctx.depth());
-
-                // indent_level++;
                 ArrayList<Feature> let_list = new ArrayList<Feature>();
                 for (var l : ctx.other_vars) {
                     let_list.add((Feature) visit(l));
                 }
 
                 Expression expr = (Expression) visit(ctx.expr());
-                // indent_level--;
+
                 // Set depth and return object
                 var o = new Let(let_list, expr);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -500,13 +429,10 @@ public class Compiler {
 
             @Override
             public ASTNode visitBlock(CoolParser.BlockContext ctx) {
-                // var rep = ast_representation("block", ctx.depth());
-                // indent_level++;
                 ArrayList<Expression> expr_list = new ArrayList<Expression>();
                 for (var e : ctx.expr_list) {
                     expr_list.add((Expression) visit(e));
                 }
-                // indent_level--;
                 // Set depth and return object
                 var o = new Block(expr_list);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -516,8 +442,6 @@ public class Compiler {
             // Case
             @Override
             public ASTNode visitCaseBranch(CoolParser.CaseBranchContext ctx) {
-                // var rep = ast_representation(ctx.id.getText(), ctx.depth());
-                // var rep = ast_representation(ctx.type.getText(), ctx.depth());
                 Expression expr = (Expression) visit(ctx.expr());
                 // Set depth and return object
                 var o = new CaseBranch(expr, ctx.id, ctx.type);
@@ -527,17 +451,11 @@ public class Compiler {
 
             @Override
             public ASTNode visitCase(CoolParser.CaseContext ctx) {
-                // var rep = ast_representation("case", ctx.depth());
-                // indent_level++;
                 Expression init = (Expression) visit(ctx.init);
                 ArrayList<CaseBranch> cases = new ArrayList<>();
                 for (var l : ctx.cases) {
-                    // var rep = ast_representation("case branch", ctx.depth());
-                    // indent_level++;
                     cases.add((CaseBranch) visit(l));
-                    // indent_level--;
                 }
-                // indent_level--;
                 // Set depth and return object
                 var o = new Case(init, cases);
                 o.setDepth(ctx.depth() - parentheses_offset);
@@ -547,14 +465,11 @@ public class Compiler {
             @Override
             public ASTNode visitClIf(CoolParser.ClIfContext ctx) {
 
-                // var rep = ast_representation("if", ctx.depth());
-                // indent_level++;
-
                 Expression cond = (Expression) visit(ctx.cond);
                 Expression then_expr = (Expression) visit(ctx.then_expr);
                 Expression else_expr = (Expression) visit(ctx.else_expr);
-                // indent_level--;
-                // Set depth and return object var o = new Program(class_list);
+
+                // Set depth and return object
                 var o = new ClIf(cond, then_expr, else_expr);
                 o.setDepth(ctx.depth() - parentheses_offset);
                 return o;
@@ -563,12 +478,9 @@ public class Compiler {
 
             @Override
             public ASTNode visitSimpleAssign(CoolParser.SimpleAssignContext ctx) {
-                // var rep = ast_representation("<-", ctx.depth());
-                // indent_level++;
-                // var rep = ast_representation(ctx.id.getText(), ctx.depth());
                 Expression expr = (Expression) visit(ctx.expr());
-                // indent_level--;
-                // Set depth and return object var o = new Program(class_list);
+
+                // Set depth and return object
                 var o = new SimpleAssign(ctx.id, expr);
                 o.setDepth(ctx.depth() - parentheses_offset);
                 return o;
@@ -576,17 +488,13 @@ public class Compiler {
 
             @Override
             public ASTNode visitFuncCall(CoolParser.FuncCallContext ctx) {
-                // var rep = ast_representation("implicit dispatch", ctx.depth());
-                // indent_level++;
-                // var rep = ast_representation(ctx.id.getText(), ctx.depth());
                 // Visit all method params
                 ArrayList<Expression> param_list = new ArrayList<Expression>();
 
                 for (var p : ctx.params) {
                     param_list.add((Expression) visit(p));
                 }
-                // indent_level--;
-                // Set depth and return object var o = new Program(class_list);
+                // Set depth and return object
                 var o = new FuncCall(ctx.id, param_list);
                 o.setDepth(ctx.depth() - parentheses_offset);
                 return o;
@@ -798,7 +706,7 @@ public class Compiler {
                 a.init.accept(this);
 
                 for (var c : a.cases) {
-                    
+
                     c.accept(this);
                 }
                 return null;
@@ -887,8 +795,7 @@ public class Compiler {
                 a.print_AST(a.id, 1);
                 a.print_AST(a.type, 1);
 
-                if(a.init != null)
-                {
+                if (a.init != null) {
                     a.init.accept(this);
                 }
                 return null;
