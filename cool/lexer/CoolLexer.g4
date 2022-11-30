@@ -51,7 +51,7 @@ FALSE:'false';
 NOT:'not';
 ISVOID:'isvoid';
 
-// Identifiers
+// Identifiers (placed under keyword in order to avoid matching keywords as identifiers)
 
 TYPE_ID : (LETTER_UPPER)(LETTER_ANY | '_' | DIGIT)*;
 OBJ_ID : (LETTER_LOWER)(LETTER_ANY | '_' | DIGIT)*;
@@ -131,4 +131,6 @@ WS
     ; 
 
 // If execution reached here, character is invalid
-INVALID: . { raiseError("Invalid character: " + getText()); };
+INVALID: . { 
+    raiseError("Invalid character: "+getText());
+};

@@ -26,6 +26,12 @@ public interface CoolParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassDef(CoolParser.ClassDefContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CoolParser#formal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFormal(CoolParser.FormalContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code funcDef}
 	 * labeled alternative in {@link CoolParser#feature}.
 	 * @param ctx the parse tree
@@ -39,12 +45,6 @@ public interface CoolParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVarDef(CoolParser.VarDefContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link CoolParser#formal}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFormal(CoolParser.FormalContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CoolParser#localVar}.
 	 * @param ctx the parse tree
@@ -100,19 +100,19 @@ public interface CoolParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParenExpr(CoolParser.ParenExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code division}
+	 * labeled alternative in {@link CoolParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDivision(CoolParser.DivisionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code boolTrue}
 	 * labeled alternative in {@link CoolParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitBoolTrue(CoolParser.BoolTrueContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code divison}
-	 * labeled alternative in {@link CoolParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDivison(CoolParser.DivisonContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code lessThan}
 	 * labeled alternative in {@link CoolParser#expr}.

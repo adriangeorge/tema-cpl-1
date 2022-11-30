@@ -209,7 +209,9 @@ public class CoolLexer extends Lexer {
 	private void INVALID_action(RuleContext _localctx, int actionIndex) {
 		switch (actionIndex) {
 		case 6:
-			 raiseError("Invalid character: " + getText()); 
+			 
+			    raiseError("Invalid character: "+getText());
+
 			break;
 		}
 	}

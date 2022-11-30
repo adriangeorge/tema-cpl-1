@@ -11,15 +11,11 @@ public interface ASTVisitor<T> {
 
     T visit(Formal formal);
 
-    T visit(Feature feature);
-
     T visit(ClInteger clInteger);
 
     T visit(NewInstance newInstance);
 
-    T visit(SimpleDispatch simpleDispatch);
-
-    T visit(oopDispatch oopDispatch);
+    T visit(OopDispatch oopDispatch);
 
     T visit(VoidCheck voidCheck);
 
@@ -66,5 +62,7 @@ public interface ASTVisitor<T> {
     T visit(Let let);
 
     T visit(CaseBranch caseBranch);
+
+    T visit(LocalVar localVar);
 
 }

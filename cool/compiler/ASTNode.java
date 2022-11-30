@@ -7,6 +7,40 @@ import org.antlr.v4.runtime.Token;
 
 // Representation of a node from the AST tree
 public abstract class ASTNode {
+    private int node_depth;
+
+    // Functions used for AST representation in text
+    public void setDepth(int node_depth) {
+        this.node_depth = node_depth;
+    }
+
+    public int getDepth() {
+        return node_depth;
+    }
+
+    // Print token type
+    public void print_AST(Token content) {
+        print_AST(content.getText(), 0);
+    }
+
+    public void print_AST(Token content, int relative_indent) {
+        print_AST(content.getText(), relative_indent);
+    }
+
+    // Print string type
+    public void print_AST(String content) {
+        print_AST(content, 0);
+    }
+
+    public void print_AST(String content, int relative_indent) {
+        String out = "";
+        for (int i = 1; i < this.node_depth + relative_indent; i++) {
+            out += "  ";
+        }
+        out += content;
+        System.out.println(out);
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return null;
     }
@@ -47,6 +81,7 @@ class Formal extends Definition {
     }
 }
 
+// Class Features
 class Feature extends Definition {
     Token id;
     List<Formal> formal_list;
@@ -55,15 +90,16 @@ class Feature extends Definition {
         this.id = id;
         this.formal_list = formal_list;
     }
-
-    public <T> T accept(ASTVisitor<T> visitor) {
-        return visitor.visit(this);
-    }
 }
 
 class FuncDef extends Feature {
-    public FuncDef(Token id, ArrayList<Formal> formal_list, Expression init) {
+
+    Expression body;
+    Token type;
+    public FuncDef(Token id, Token type, ArrayList<Formal> formal_list, Expression init) {
         super(id, formal_list);
+        this.type = type;
+        this.body = init;
     }
 
     public <T> T accept(ASTVisitor<T> visitor) {
@@ -77,6 +113,7 @@ class VarDef extends Feature {
 
     public VarDef(Token id, Token type, Expression init) {
         super(id, null);
+        this.type = type;
         this.init = init;
     }
 
@@ -92,6 +129,7 @@ class LocalVar extends Feature {
     public LocalVar(Token id, Token type, Expression init) {
         super(id, null);
         this.init = init;
+        this.type = type;
     }
 
     public <T> T accept(ASTVisitor<T> visitor) {
@@ -101,19 +139,22 @@ class LocalVar extends Feature {
 
 // EXPRESSIONS ABSTRACT
 abstract class Expression extends ASTNode {
-
-    public Expression() {
-    }
 }
 
-class SimpleDispatch extends Expression {
-    public <T> T accept(ASTVisitor<T> visitor) {
-        return visitor.visit(this);
+class OopDispatch extends Expression {
+
+    Expression left;
+    Token parent_type;
+    Token method_id;
+    ArrayList<Expression> param_list;
+
+    public OopDispatch(Expression left, Token parent_type, Token method_id, ArrayList<Expression> param_list) {
+        this.parent_type = parent_type;
+        this.method_id = method_id;
+        this.param_list = param_list;
+        this.left = left;
     }
 
-}
-
-class oopDispatch extends Expression {
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
@@ -121,108 +162,244 @@ class oopDispatch extends Expression {
 }
 
 class FuncCall extends Expression {
+
+    Token id;
+    ArrayList<Expression> param_list;
+
+    public FuncCall(Token id, ArrayList<Expression> param_list) {
+        this.id = id;
+        this.param_list = param_list;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class WhileLoop extends Expression {
+    Expression cond_expr;
+    Expression instr_expr;
+
+    WhileLoop(Expression cond_expr, Expression instr_expr) {
+        this.cond_expr = cond_expr;
+        this.instr_expr = instr_expr;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class Block extends Expression {
+    ArrayList<Expression> expr_list;
+
+    public Block(ArrayList<Expression> expr_list) {
+        this.expr_list = expr_list;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class Case extends Expression {
+    Expression init;
+    ArrayList<CaseBranch> cases;
+
+    public Case(Expression init, ArrayList<CaseBranch> cases) {
+        this.init = init;
+        this.cases = cases;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class CaseBranch extends Expression {
+    Expression expr;
+
+    Token id;
+    Token type;
+
+    public CaseBranch(Expression expr, Token id, Token type) {
+        this.id = id;
+        this.type = type;
+        this.expr = expr;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class NewInstance extends Expression {
+    Token type;
+
+    NewInstance(Token type) {
+        this.type = type;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class VoidCheck extends Expression {
+    Expression expr;
+
+    public VoidCheck(Expression expr) {
+        this.expr = expr;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class Addition extends Expression {
+    Expression left;
+    Expression right;
+
+    Addition(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class Subtraction extends Expression {
+    Expression left;
+    Expression right;
+
+    Subtraction(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class Multiplication extends Expression {
+    Expression left;
+    Expression right;
+
+    Multiplication(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class Division extends Expression {
+    Expression left;
+    Expression right;
+
+    Division(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class ComplExpr extends Expression {
+    Expression operand;
+
+    ComplExpr(Expression operand) {
+        this.operand = operand;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class LessThan extends Expression {
+    Expression left;
+    Expression right;
+
+    LessThan(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class LessThanEqual extends Expression {
+    Expression left;
+    Expression right;
+
+    LessThanEqual(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class Equality extends Expression {
+    Expression left;
+    Expression right;
+
+    Equality(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class NotExpr extends Expression {
+    Expression operand;
+
+    NotExpr(Expression operand) {
+        this.operand = operand;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class ParenExpr extends Expression {
+
+    Expression expression;
+
+    public ParenExpr(Expression expression) {
+        this.expression = expression;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class ObjId extends Expression {
+
+    Token id;
+
+    ObjId(Token id) {
+        this.id = id;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
@@ -241,18 +418,36 @@ class ClInteger extends Expression {
 }
 
 class ClString extends Expression {
+    Token val;
+
+    public ClString(Token val) {
+        this.val = val;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class BoolTrue extends Expression {
+    Token val;
+
+    public BoolTrue(Token val) {
+        this.val = val;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class BoolFalse extends Expression {
+    Token val;
+
+    public BoolFalse(Token val) {
+        this.val = val;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
@@ -273,12 +468,31 @@ class SimpleAssign extends Expression {
 }
 
 class ClIf extends Expression {
+
+    Expression cond;
+    Expression then_expr;
+    Expression else_expr;
+
+    public ClIf(Expression cond, Expression then_expr, Expression else_expr) {
+        this.cond = cond;
+        this.then_expr = then_expr;
+        this.else_expr = else_expr;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }
 
 class Let extends Expression {
+    ArrayList<Feature> let_list;
+    Expression expr;
+    
+    public Let(ArrayList<Feature> let_list, Expression expr) {
+        this.let_list = let_list;
+        this.expr = expr;
+    }
+
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visit(this);
     }

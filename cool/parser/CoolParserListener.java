@@ -32,6 +32,16 @@ public interface CoolParserListener extends ParseTreeListener {
 	 */
 	void exitClassDef(CoolParser.ClassDefContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CoolParser#formal}.
+	 * @param ctx the parse tree
+	 */
+	void enterFormal(CoolParser.FormalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CoolParser#formal}.
+	 * @param ctx the parse tree
+	 */
+	void exitFormal(CoolParser.FormalContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code funcDef}
 	 * labeled alternative in {@link CoolParser#feature}.
 	 * @param ctx the parse tree
@@ -55,16 +65,6 @@ public interface CoolParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVarDef(CoolParser.VarDefContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link CoolParser#formal}.
-	 * @param ctx the parse tree
-	 */
-	void enterFormal(CoolParser.FormalContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CoolParser#formal}.
-	 * @param ctx the parse tree
-	 */
-	void exitFormal(CoolParser.FormalContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CoolParser#localVar}.
 	 * @param ctx the parse tree
@@ -158,6 +158,18 @@ public interface CoolParserListener extends ParseTreeListener {
 	 */
 	void exitParenExpr(CoolParser.ParenExprContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code division}
+	 * labeled alternative in {@link CoolParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterDivision(CoolParser.DivisionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code division}
+	 * labeled alternative in {@link CoolParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitDivision(CoolParser.DivisionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code boolTrue}
 	 * labeled alternative in {@link CoolParser#expr}.
 	 * @param ctx the parse tree
@@ -169,18 +181,6 @@ public interface CoolParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBoolTrue(CoolParser.BoolTrueContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code divison}
-	 * labeled alternative in {@link CoolParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterDivison(CoolParser.DivisonContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code divison}
-	 * labeled alternative in {@link CoolParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitDivison(CoolParser.DivisonContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code lessThan}
 	 * labeled alternative in {@link CoolParser#expr}.
